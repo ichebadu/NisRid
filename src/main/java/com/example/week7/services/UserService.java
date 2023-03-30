@@ -26,12 +26,11 @@ public class UserService {
                 user.setEmail(userDTO.getEmail());
                 user.setPassword(userDTO.getPassword());
                 repository.save(user);
-                status="succesful created account";
+                status="successful created account";
             }
 
         }
         return status;
-
     }
 
     public User findUserByEmail(String email,String password){

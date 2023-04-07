@@ -1,40 +1,19 @@
 package com.example.week7.services;
 
-import com.example.week7.Repo.UserRepository;
 import com.example.week7.dto.UserDTO;
 import com.example.week7.model.User;
-import lombok.Data;
-import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Service;
 
-@Service
-@Data
-@RequiredArgsConstructor
-public class UserService {
-    private final UserRepository repository;
+import java.util.List;
 
-    public String createUser(UserDTO userDTO){
-        String status;
-        if (userDTO.getEmail()==null && userDTO.getPassword()==null){
-            status="username and password is empty";
-        }else{
-            if (findUserByEmail(userDTO.getEmail(),userDTO.getPassword())!=null){
-                status="email already exist";
-            }else{
-                User user = new User();
-                user.setUsername(userDTO.getUsername());
-                user.setEmail(userDTO.getEmail());
-                user.setPassword(userDTO.getPassword());
-                repository.save(user);
-                status="successful created account";
-            }
+public interface UserService {
+    public User save (UserDTO userDTO);
+    UserDTO registerUser(UserDTO userDTO);
+    public UserDTO Authenticate(UserDTO userDTO);
+    List<UserDTO> findAllUsers();
+    UserDTO mapToDTO(User user);
 
-        }
-        return status;
-    }
 
-    public User findUserByEmail(String email,String password){
-        return repository.findByEmailAndPassword(email,password).orElse(null);
-
-    }
+//    String createUser(UserDTO userDTO);
+//    User findUserByEmail(String email, String password);
+//    List<UserDTO> findAllUsers();
 }

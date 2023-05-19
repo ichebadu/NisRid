@@ -44,6 +44,5 @@ public class User {
 //        this.password = user.getPassword();
 //        this.createdOn = user.getCreatedOn();
 ////        this.updatedOn = user.getUpdatedOn()
-//
 //    }
 }

@@ -34,7 +34,7 @@ public class UserServiceImpl implements UserService {
         Optional<User> existingUser = userRepository.findUserByEmailAndPassword(userDTO.getEmail(),userDTO.getPassword());
         System.out.println(existingUser);
         if (userDTO.getEmail() == null || userDTO.getPassword() == null) {
-            throw new IllegalArgumentException("Email cannot be null");
+            throw new RuntimeException("Email cannot be null");
         }
         if (existingUser.isPresent()) {
             throw new RuntimeException("User already exist");
@@ -44,19 +44,46 @@ public class UserServiceImpl implements UserService {
             return mapToDTO(user);
         }
     }
-    public UserDTO Authenticate(UserDTO userDTO){
+//    public UserDTO Authenticate(UserDTO userDTO){
+//
+//        Optional<User> authenticatingUser = userRepository.findUserByEmailAndPassword(userDTO.getEmail(),userDTO.getPassword());
+//        if(userDTO.getEmail() == null || userDTO.getPassword() == null){
+//            throw new RuntimeException("cant empty blank");
+//        }
+//        if(!authenticatingUser.isPresent()){
+//            throw new RuntimeException("wrong password or email");
+//        }else{
+//            User user = new User();
+//            return mapToDTO(user);
+//        }
+//    }
+public UserDTO Authenticate(UserDTO userDTO) {
+    if(userDTO.getEmail() == null || userDTO.getPassword() == null){
+        throw new RuntimeException("Email and password cannot be empty");
+    }
 
-        Optional<User> authenticatingUser = userRepository.findUserByEmailAndPassword(userDTO.getEmail(),userDTO.getPassword());
-        if(userDTO.getEmail() == null || userDTO.getPassword() == null){
-            throw new RuntimeException("cant empty blank");
-        }
-        if(!authenticatingUser.isPresent()){
-            throw new RuntimeException("wrong password or email");
-        }else{
-            User user = new User();
-            return mapToDTO(user);
+    Optional<User> authenticatingUser = userRepository.findUserByEmail(userDTO.getEmail());
+    if (!authenticatingUser.isPresent()) {
+        throw new RuntimeException("User does not exist");
+    }
+
+    User user = authenticatingUser.get();
+    if (!user.getPassword().equals(userDTO.getPassword())) {
+        throw new RuntimeException("Wrong password");
+    }
+
+
+    return mapToDTO(user);
+}
+
+    public UserDTO AdminAuthenticate(UserDTO userDTO){
+        if(userDTO.getEmail().equals("ichebadu@gmail.com") && userDTO.getPassword().equals("1234")) {
+            return userDTO;
+        } else {
+            throw new RuntimeException("Unauthorized access to admin page");
         }
     }
+
     public UserDTO mapToDTO(User user) {
         UserDTO userDTO = new UserDTO();
         userDTO.setId(user.getId());

@@ -1,10 +1,12 @@
 package com.example.week7.controller;
 
+import com.example.week7.dto.UserDTO;
 import com.example.week7.model.Category;
 import com.example.week7.dto.ProductDTO;
 import com.example.week7.model.Product;
 import com.example.week7.services.Impl.CategoryServiceImpl;
 import com.example.week7.services.Impl.ProductServiceImpl;
+import com.example.week7.services.Impl.UserServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -24,6 +26,18 @@ public class AdminController {
     CategoryServiceImpl categoryServiceImpl;
     @Autowired
     ProductServiceImpl productServiceImpl;
+    @Autowired
+    UserServiceImpl userServiceImpl;
+
+
+
+//    @GetMapping("/adminLogin")
+//    public String loginPage(@ModelAttribute("loginRequest") UserDTO userDTO){
+//        UserDTO varifyingLogIn = userServiceImpl.AdminAuthenticate(userDTO);
+//        if (varifyingLogIn == userDTO)
+//            return "login";
+//        return varifyingLogIn != null ? "adminHome" :"register";
+//    }
 
     @GetMapping("/admin")
     public String adminHome(){
